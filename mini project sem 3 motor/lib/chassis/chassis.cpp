@@ -1,17 +1,32 @@
 #include "chassis.h"
 
-chassis::chassis(motor* fl, motor* fr, motor* bl, motor* br){
+chassis::chassis(motor* fl, motor* fr, motor* bl, motor* br, bool isTypeX){
     this->fl = fl;
     this->fr = fr;
     this->bl = bl;
     this->br = br;
+    this->isTypeX = isTypeX;
+}
+
+void chassis::setType(bool isTypeX){
+    this->isTypeX = isTypeX;
 }
 
 void chassis::move(int x, int y, int w){
-    int frontLeftMotor = y + x + w;
-    int backLeftMotor = y - x + w;
-    int frontRightMotor = y - x - w;
-    int backRightMotor = y + x - w;
+    int frontLeftMotor;
+    int backLeftMotor;
+    int frontRightMotor;
+    int backRightMotor;
+
+    if(isTypeX){
+        frontLeftMotor = y + x + w;
+        backLeftMotor = y - x + w;
+        frontRightMotor = y - x - w;
+        backRightMotor = y + x - w;
+    }
+    else{
+        //Type O algorithm
+    }
 
     //set direction
     if(frontLeftMotor > 0){
