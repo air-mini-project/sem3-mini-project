@@ -11,10 +11,26 @@ motor::motor(uint8_t pwm_pin, uint8_t direction_pin){
     setDirection(true);
 }
 
+void motor::setReversed(bool isReversed){
+    this -> isReversed = isReversed;
+}
+
+int motor::limited(int value, int minimum_value, int maximum_value){
+    if (value >= maximum_value){
+        value = maximum_value;
+    }
+    else if (value <= minimum_value){
+        value = minimum_value;
+    }
+    return value;
+}
+
 void motor::setSpeed(int pwm){
     this->pwm = pwm;
 
-    int value = map(pwm, 0, 100, 0, 255);
+    this->pwm = limited(this->pwm, 0, 100); //pwm, max value, min value
+
+    int value = map(this->pwm, 0, 100, 0, 255);
     analogWrite(this->pwm_pin,value);
 }
 
@@ -25,7 +41,11 @@ return pwm;
 void motor::setDirection(bool isCW){ 
     this->isCW = isCW;
 
-    if(isCW){
+    if(isReversed){
+        this->isCW = !this->isCW;
+    }
+
+    if(this->isCW){
         digitalWrite(this->direction_pin, HIGH);
     }
     else{
