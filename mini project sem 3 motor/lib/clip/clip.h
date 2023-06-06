@@ -17,6 +17,7 @@ class clip{
         int num_channel;
 
     public:
+        clip(motor* lifter);
         clip(motor* lifter, Adafruit_PWMServoDriver* servo_driver);
 
         void set_num_channel(int num);
