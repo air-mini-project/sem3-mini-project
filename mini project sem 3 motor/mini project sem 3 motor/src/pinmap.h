@@ -12,7 +12,7 @@
 #define motor4_pwm 32 
 #define motor4_CWCCW 33
 
-#define motor5_pwm 15
-#define motor5_CWCCW 2
-#define upper_switch 35
-#define bottom_switch 34
+#define motor5_pwm 19
+#define motor5_CWCCW 18
+#define upper_switch 36
+#define bottom_switch 35
