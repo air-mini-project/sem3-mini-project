@@ -21,9 +21,10 @@ chassis superCar(&motor4, &motor2, &motor1, &motor3, true); //motor* fl, motor* 
 
 msg nanoMsg;
 
-int num_channel = 1;  //according to your setting to adjust it
-int close_pulse_value = 180;  //according to your setting to adjust it
-int open_pulse_value = 180;   //according to your setting to adjust it
+int num_channel = 3;  //according to your setting to adjust it
+int close_pulse_value = 90;  //according to your setting to adjust it
+int open_pulse_value = 0;   //according to your setting to adjust it
+// Min:90, Max:180
 // Adafruit_PWMServoDriver servo_driver(0x40);
 
 void liftStop(){
@@ -34,7 +35,7 @@ void openClip(){
     servo_driver.setPWM(num_channel, 0, open_pulse_value); //done
   }
 void closeClip(){
-    servo_driver.setPWM(num_channel, 1, close_pulse_value);    //might need adjustments
+    servo_driver.setPWM(num_channel, 0, close_pulse_value);    //might need adjustments
 
   }
 
@@ -61,6 +62,9 @@ void setup() {
   motor1.setReversed(true);
 
   clipper.liftStop();
+
+  //servo_driver.setPWM(num_channel, 0, angle);//160
+
 }
 
 void loop() {
@@ -79,12 +83,26 @@ void loop() {
   //   openClip();
   // }
 
-  if(nanoMsg.get_iscloseClip()){
-    servo_driver.setPWM(num_channel, 0, open_pulse_value); 
-  }
-  else{
-    servo_driver.setPWM(num_channel, 0, close_pulse_value);    
-  }
+  // if(nanoMsg.get_iscloseClip()){
+  //   servo_driver.setPWM(num_channel, 0, open_pulse_value); 
+  // }
+  // else{
+  //   servo_driver.setPWM(num_channel, 0, close_pulse_value);    
+  // }
+
+for (int pos = 0; pos <= 180; pos += 1) // change here in the place 0 and 180 , into any two degrees you wish the servo to sweep.
+    { 
+    
+     servo_driver.setPWM(num_channel, 0,pos);              
+     delay(15);                      
+    }
+    
+    for (int pos = 180; pos >= 0; pos -= 1)  // change here also  in the place 0 and 180 , into any two degrees you wish the servo to sweep.
+    { 
+     servo_driver.setPWM(num_channel, 0,pos);              
+     delay(15);                       
+    }
+
 
   //lifter
   switch(nanoMsg.getLifting_status()){
