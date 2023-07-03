@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../Downloads/Lab 2 Smart Car Park/Lab 2 Smart Car Park/vscode"
+		},
+		{
+			"name": "MCU 32S",
+			"path": "../../MCU 32S"
+		},
+		{
+			"name": "mini-project",
+			"path": ".."
+		},
+		{
+			"name": "text",
+			"path": "../../text"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"chrono": "cpp",
+			"ratio": "cpp"
+		}
+	}
+}
