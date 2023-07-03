@@ -27,7 +27,9 @@ void chassis::move(int x, int y, int w){
     else{
         //Type O algorithm
     }
-
+    
+    Serial.printf("fr: %d \n\r bl: %d \n\r fl: %d \n\r br: %d \n\r",frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor);
+    
     //set direction
     if(frontLeftMotor > 0){
         fl->setDirection(true);
