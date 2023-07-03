@@ -22,9 +22,9 @@ chassis superCar(&motor4, &motor2, &motor1, &motor3, true); //motor* fl, motor* 
 msg nanoMsg;
 
 int num_channel = 3;  //according to your setting to adjust it
-int close_pulse_value = 90;  //according to your setting to adjust it
-int open_pulse_value = 0;   //according to your setting to adjust it
-// Min:90, Max:180
+int close_pulse_value = 160;  //according to your setting to adjust it
+int open_pulse_value = 90;   //according to your setting to adjust it
+// Min:180, Max:90 (SMALL VAL = LARGER OPEN PULSE)
 // Adafruit_PWMServoDriver servo_driver(0x40);
 
 void liftStop(){
@@ -35,7 +35,7 @@ void openClip(){
     servo_driver.setPWM(num_channel, 0, open_pulse_value); //done
   }
 void closeClip(){
-    servo_driver.setPWM(num_channel, 0, close_pulse_value);    //might need adjustments
+    servo_driver.setPWM(num_channel, 0, close_pulse_value); //done
 
   }
 
@@ -90,18 +90,18 @@ void loop() {
   //   servo_driver.setPWM(num_channel, 0, close_pulse_value);    
   // }
 
-for (int pos = 0; pos <= 180; pos += 1) // change here in the place 0 and 180 , into any two degrees you wish the servo to sweep.
-    { 
+// for (int pos = 0; pos <= 180; pos += 1) // change here in the place 0 and 180 , into any two degrees you wish the servo to sweep.
+//     { 
     
-     servo_driver.setPWM(num_channel, 0,pos);              
-     delay(15);                      
-    }
+//      servo_driver.setPWM(num_channel, 0,pos);              
+//      delay(15);                      
+//     }
     
-    for (int pos = 180; pos >= 0; pos -= 1)  // change here also  in the place 0 and 180 , into any two degrees you wish the servo to sweep.
-    { 
-     servo_driver.setPWM(num_channel, 0,pos);              
-     delay(15);                       
-    }
+//     for (int pos = 180; pos >= 0; pos -= 1)  // change here also  in the place 0 and 180 , into any two degrees you wish the servo to sweep.
+//     { 
+//      servo_driver.setPWM(num_channel, 0,pos);              
+//      delay(15);                       
+//     }
 
 
   //lifter
