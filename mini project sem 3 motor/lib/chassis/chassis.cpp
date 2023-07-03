@@ -1,6 +1,6 @@
 #include "chassis.h"
 
-chassis::chassis(motor* fl, motor* fr, motor* bl, motor* br, bool isTypeX){
+chassis::chassis(motor* fl,motor*bl , motor* fr, motor* br, bool isTypeX){
     this->fl = fl;
     this->fr = fr;
     this->bl = bl;
@@ -13,10 +13,10 @@ void chassis::setType(bool isTypeX){
 }
 
 void chassis::move(int x, int y, int w){
-    int frontLeftMotor;
-    int backLeftMotor;
-    int frontRightMotor;
-    int backRightMotor;
+    int8_t frontLeftMotor;
+    int8_t backLeftMotor;
+    int8_t frontRightMotor;
+    int8_t backRightMotor;  
 
     if(isTypeX){
         frontLeftMotor = y + x + w;
@@ -27,13 +27,15 @@ void chassis::move(int x, int y, int w){
     else{
         //Type O algorithm
     }
-
+    
+    Serial.printf("fr: %d \n\r bl: %d \n\r fl: %d \n\r br: %d \n\r",frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor);
+    
     //set direction
     if(frontLeftMotor > 0){
-        fl->setDirection(true);
+        fl->setDirection(false);
     }
     else{
-        fl->setDirection(false);
+        fl->setDirection(true);
     }
 
     //set the speed
@@ -41,10 +43,10 @@ void chassis::move(int x, int y, int w){
 
     //set direction
     if(frontRightMotor > 0){
-        fr->setDirection(true);
+        fr->setDirection(false);
     }
     else{
-        fr->setDirection(false);
+        fr->setDirection(true);
     }
     //set the speed
     fr->setSpeed(abs(frontRightMotor));

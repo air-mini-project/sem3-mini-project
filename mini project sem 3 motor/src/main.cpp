@@ -21,11 +21,23 @@ chassis superCar(&motor4, &motor2, &motor1, &motor3, true); //motor* fl, motor* 
 
 msg nanoMsg;
 
-int num_channel = 3;
+int num_channel = 3;  //according to your setting to adjust it
+int close_pulse_value = 160;  //according to your setting to adjust it
+int open_pulse_value = 90;   //according to your setting to adjust it
+// Min:180, Max:90 (SMALL VAL = LARGER OPEN PULSE)
+//Adafruit_PWMServoDriver servo_driver(0x40);
 
 void liftStop(){
   motor5.setSpeed(0);
 }
+
+void openClip(){
+    servo_driver.setPWM(num_channel, 0, open_pulse_value); //done
+  }
+void closeClip(){
+    servo_driver.setPWM(num_channel, 0, close_pulse_value); //done
+
+  }
 
 void setup() {
   
@@ -46,13 +58,18 @@ void setup() {
   //JetsonNano
   //nanoMsg.init(&Serial2);
 
-  motor4.setReversed(true);
-  motor1.setReversed(true);
+  // motor4.setReversed(true);
+  // motor1.setReversed(true);
+
+  clipper.liftStop();
+
+  //servo_driver.setPWM(num_channel, 0, angle);//160
+
 }
 
 void loop() {
-  if (!nanoMsg.read()){
-    return; 
+  if(!nanoMsg.read()){
+    return;
   }
 
   //chassis move
@@ -60,23 +77,40 @@ void loop() {
 
   //clip
   // if(nanoMsg.get_iscloseClip()){
-  //   clipper.closeClip();
+  //   closeClip();
   // }
   // else{
-  //   clipper.openClip();
+  //   openClip();
   // }
-  if(nanoMsg.get_iscloseClip()){
-    servo_driver.setPWM(num_channel, 0, 10);
-  }
-  else{
-    servo_driver.setPWM(num_channel, 0, 10);
-  }
+
+  // if(nanoMsg.get_iscloseClip()){
+  //   servo_driver.setPWM(num_channel, 0, open_pulse_value); 
+  // }
+  // else{
+  //   servo_driver.setPWM(num_channel, 0, close_pulse_value);    
+  // }
+
+// for (int pos = 0; pos <= 180; pos += 1) // change here in the place 0 and 180 , into any two degrees you wish the servo to sweep.
+//     { 
+    
+//      servo_driver.setPWM(num_channel, 0,pos);              
+//      delay(15);                      
+//     }
+    
+//     for (int pos = 180; pos >= 0; pos -= 1)  // change here also  in the place 0 and 180 , into any two degrees you wish the servo to sweep.
+//     { 
+//      servo_driver.setPWM(num_channel, 0,pos);              
+//      delay(15);                       
+//     }
+
 
   //lifter
   switch(nanoMsg.getLifting_status()){
     case 0x02:
       //up
       if(!digitalRead(upper_switch)){
+        clipper.liftUp();
+        delay(500);
         clipper.liftUp();
       }
       else{
@@ -88,6 +122,8 @@ void loop() {
       //down
       if(!digitalRead(bottom_switch)){
         clipper.liftDown();
+        delay(500);
+        clipper.liftDown();
       }
       else{
         clipper.liftStop();
@@ -98,8 +134,21 @@ void loop() {
       //stop
       clipper.liftStop();
       break;
-    default:
+
+    case 0x03:
+      closeClip();
       break;
+
+    case 0x04:
+      openClip();
+      break;
+
+    default:
+      //for safety, it will stop if the limit switches are triggered.
+      // if(digitalRead(upper_switch) | digitalRead(bottom_switch)){
+      //   clipper.liftStop();
+      // }
+    break;
   }
 
 }

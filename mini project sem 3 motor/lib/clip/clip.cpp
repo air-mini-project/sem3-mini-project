@@ -19,13 +19,13 @@ void clip::set_num_channel(int num){
     num_channel = num;
 }
 
-void clip::openClip(){
-    servo_driver -> setPWM(num_channel, 0, 10); ///??? = angle
-}
+// void clip::openClip(){
+//     servo_driver -> setPWM(num_channel, 0, 120); ///??? = angle
+// }
 
-void clip::closeClip(){
-    servo_driver -> setPWM(num_channel, 0, 10);
-}
+// void clip::closeClip(){
+//     servo_driver -> setPWM(num_channel, 0, 10);
+// }
 
 void clip::liftUp(){
     lifter->setDirection(true);
