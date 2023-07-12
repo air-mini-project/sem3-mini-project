@@ -10,6 +10,8 @@ video_capture = cv2.VideoCapture(1, cv2.CAP_DSHOW)
 video_capture.set(3, 180)
 video_capture.set(4, 140)
 
+cw = [0xFF, 0x00, 0x00, 0x32, 0x00, 0x00]
+
 while (True):
     # Capture the frames
     ret, frame = video_capture.read()
