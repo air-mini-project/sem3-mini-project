@@ -19,7 +19,7 @@ def detectArrow(hsv, crop_img):
     mask_black = cv2.inRange(hsv, lower_black, upper_black)
 
     # Find the contours of the frame
-    contours_b, hierarchy_b = cv2.findContours(mask_black.copy(), 1, cv2.CHAIN_APPROX_NONE)
+    _,contours_b, hierarchy_b = cv2.findContours(mask_black.copy(), 1, cv2.CHAIN_APPROX_NONE)
     cx = -1
     cy = -1
 
@@ -31,10 +31,10 @@ def detectArrow(hsv, crop_img):
         if a_b > 400:
 
             if M['m00'] != 0:
-                cxb = int(M['m10']/M['m00'])
-                cyb = int(M['m01']/M['m00'])
-                cv2.line(crop_img, (cxb, 0), (cxb, 720), (255, 0, 0), 1)
-                cv2.line(crop_img, (0, cyb), (1280, cyb), (255, 0, 0), 1)
+                cx = int(M['m10']/M['m00'])
+                cy = int(M['m01']/M['m00'])
+                cv2.line(crop_img, (cx, 0), (cx, 720), (255, 0, 0), 1)
+                cv2.line(crop_img, (0, cy), (1280, cy), (255, 0, 0), 1)
 
         cv2.drawContours(crop_img, contours_b, -1, (0, 255, 0), 1)
 
@@ -73,7 +73,7 @@ while (True):
     mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
 
     # Find the contours of the frame
-    contours, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    _, contours, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # Find the biggest contour (if detected)
     cx = -1
@@ -116,4 +116,8 @@ while (True):
 
     # Display the resulting frame
     cv2.imshow('frame', crop_img)
-    cv2.destroyAllWindows()
+    if cv2.waitKey(1) == ord('q'):
+        break
+
+video_capture.release()
+cv2.destroyAllWindows()
