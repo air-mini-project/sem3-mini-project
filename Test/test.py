@@ -3,7 +3,7 @@ import cv2
 import serial
 import time
 
-ser = serial.Serial('/dev/ttyUSB0', baudrate=115200)
+ser = serial.Serial("/dev/ttyUSB0", baudrate=115200)
 time.sleep(0.5) #wait 0.5s for serial connection
 
 video_capture = cv2.VideoCapture("/dev/video0")
@@ -30,7 +30,7 @@ while (True):
     mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
 
     # Find the contours of the frame
-    contours, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    _,contours, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # Find the biggest contour (if detected)
     cx = -1
@@ -72,4 +72,8 @@ while (True):
 
     # Display the resulting frame
     cv2.imshow('frame', crop_img)
-    cv2.destroyAllWindows()
+        if cv2.waitKey(1) == ord('q'):
+        break
+
+video_capture.release()
+cv2.destroyAllWindows()
