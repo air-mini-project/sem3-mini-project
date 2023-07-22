@@ -3,10 +3,10 @@ import cv2
 import serial
 import time
 
-ser = serial.Serial('COM3', baudrate=115200)
+ser = serial.Serial('/dev/ttyUSB0', baudrate=115200)
 time.sleep(0.5)  # wait 0.5s for serial connection
 
-video_capture = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+video_capture = cv2.VideoCapture("/dev/video0")
 video_capture.set(3, 180)
 video_capture.set(4, 140)
 
@@ -35,7 +35,7 @@ def detect_blue(frame):
     mask = cv2.inRange(hsv, lower_blue, upper_blue)
 
     # Find the contours of the frame
-    contours, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    _, contours, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # Check if blue color is detected
     if blue_count <= turn_val:
@@ -138,7 +138,7 @@ while (True):
     mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
 
     # Find the contours of the frame
-    contours, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    _, contours, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # Find the biggest contour (if detected)
     cx = -1
